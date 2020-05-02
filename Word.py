@@ -42,3 +42,9 @@ def word_list_to_str(word_list):
     for word in word_list:
         ret_str += str(word) + " | "
     return ret_str
+
+
+def order_word_list_by_hand(hand_type, word_list):
+    if hand_type == "left":
+        return sorted(word_list, key=left_comparison)
+    return sorted(word_list, key=right_comparison)
