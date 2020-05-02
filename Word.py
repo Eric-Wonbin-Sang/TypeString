@@ -1,4 +1,4 @@
-from General import Constants
+from General import Functions, Constants
 
 
 class Word:
@@ -23,9 +23,9 @@ class Word:
         return "w: {}\tl: {} ({}%)\tr: {} ({}%)".format(
             self.text,
             self.left_hand_key_count,
-            self.left_hand_key_percent,
+            "%.2f" % self.left_hand_key_percent,
             self.right_hand_key_count,
-            self.right_hand_key_percent
+            "%.2f" % self.right_hand_key_percent
         )
 
 
@@ -35,6 +35,11 @@ def left_comparison(word):
 
 def right_comparison(word):
     return word.right_hand_key_count
+
+
+def get_word_list():
+    string_list = Functions.get_strings_from_txt_to_list("Source Files/3000 most common words.txt")
+    return [Word(string) for string in string_list]
 
 
 def word_list_to_str(word_list):
