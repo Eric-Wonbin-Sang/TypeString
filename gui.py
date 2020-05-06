@@ -33,7 +33,8 @@ def gui():
     random.shuffle(left_hand_word_list)
     random.shuffle(right_hand_word_list)
 
-    curr_word_list = right_hand_word_list
+    curr_word_list = left_hand_word_list
+    # curr_word_list = right_hand_word_list
     word_index = 0
 
     input_box = EasyMode.EasyRect(
@@ -59,6 +60,22 @@ def gui():
         )
     ]
 
+    next_word_text_list = [
+        EasyMode.EasyText(
+            text=next_word.text,
+            x=display_height / 2,
+            y=display_width / 2 + 50 * i,
+            size=display_width / 20,
+            font_file="FontFolder/Product Sans Regular.ttf",
+            color=(9, 44, 99),
+            opacity=20,
+            draw_center=False
+        )
+        for i, next_word in enumerate(curr_word_list[word_index + 1: + word_index + 4])
+    ]
+    for next_word_text in next_word_text_list:
+        next_word_text.y += 50
+
     input_text_list = [
         EasyMode.EasyText(
             text="",
@@ -67,7 +84,8 @@ def gui():
             size=display_width / 20,
             font_file="FontFolder/Product Sans Regular.ttf",
             color=(227, 52, 108),
-            draw_center=False
+            draw_center=False,
+            draw_from_bottom=True
         )
     ]
 
@@ -98,9 +116,27 @@ def gui():
                             size=display_width / 20,
                             font_file="FontFolder/Product Sans Regular.ttf",
                             color=(227, 52, 108),
-                            draw_center=False
+                            draw_center=False,
+                            draw_from_bottom=True
                         )
                     ] + input_text_list
+
+                    next_word_text_list = [
+                        EasyMode.EasyText(
+                            text=next_word.text,
+                            x=display_height / 2,
+                            y=display_width / 2 + 50 * i,
+                            size=display_width / 20,
+                            font_file="FontFolder/Product Sans Regular.ttf",
+                            color=(9, 44, 99),
+                            opacity=20,
+                            draw_center=False
+                        )
+                        for i, next_word in enumerate(curr_word_list[word_index + 1: + word_index + 4])
+                    ]
+
+                    for next_word_text in next_word_text_list:
+                        next_word_text.y += 50
 
                     for input_text in input_text_list[1:]:
                         input_text.y -= 50
@@ -131,6 +167,8 @@ def gui():
             obj.update_coordinates(display_height / 2, display_width / 2)
         for obj in obj_list:
             obj.draw(screen)
+        for next_word_text in next_word_text_list:
+            next_word_text.draw(screen)
         for word_text in word_text_list:
             word_text.draw(screen)
         for input_text in input_text_list:

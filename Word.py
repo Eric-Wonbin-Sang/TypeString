@@ -8,8 +8,9 @@ class Word:
         self.text = text
 
         self.left_hand_key_count = self.get_hand_key_count(Constants.left_hand_key_list)
-        self.left_hand_key_percent = self.left_hand_key_count / len(self.text) * 100
         self.right_hand_key_count = self.get_hand_key_count(Constants.right_hand_key_list)
+
+        self.left_hand_key_percent = self.left_hand_key_count / len(self.text) * 100
         self.right_hand_key_percent = self.right_hand_key_count / len(self.text) * 100
 
     def get_hand_key_count(self, hand_key_list):
