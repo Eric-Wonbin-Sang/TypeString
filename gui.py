@@ -2,7 +2,7 @@ import pygame
 import random
 
 import Word
-from General import EasyMode
+from General import EasyMode, Constants
 
 
 def do_input_analysis(curr_word, curr_input):
@@ -16,12 +16,12 @@ def do_input_analysis(curr_word, curr_input):
 
 def gui():
 
-    display_height = 1200
-    display_width = 700
+    # display_height = 1200
+    # display_width = 700
 
     pygame.init()
     pygame.font.init()
-    screen = pygame.display.set_mode([display_height, display_width], pygame.RESIZABLE)
+    screen = pygame.display.set_mode([Constants.display_height, Constants.display_width], pygame.RESIZABLE)
     display_height, display_width = pygame.display.get_surface().get_size()
 
     word_list = Word.get_word_list()
@@ -29,6 +29,8 @@ def gui():
                            word.left_hand_key_percent == 100]
     right_hand_word_list = [word for word in Word.order_word_list_by_hand("left", word_list) if
                             word.right_hand_key_percent == 100]
+    print(len(left_hand_word_list))
+    print(len(right_hand_word_list))
 
     random.shuffle(left_hand_word_list)
     random.shuffle(right_hand_word_list)
@@ -93,7 +95,7 @@ def gui():
     while True:
 
         screen.fill((255, 255, 255))
-        display_height, display_width = pygame.display.get_surface().get_size()
+        Constants.display_height, Constants.display_width = pygame.display.get_surface().get_size()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
