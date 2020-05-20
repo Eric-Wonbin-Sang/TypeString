@@ -55,7 +55,12 @@ class TypeInput:
             draw_center=True
         )
 
-    def move(self, x_offset=0, y_offset=0):
+    def move(self, x=None, y=None, x_offset=0, y_offset=0):
+
+        if x is not None:
+            x_offset = x - self.background_rect.x + x_offset
+        if y is not None:
+            y_offset = y - self.background_rect.y + y_offset
 
         self.background_rect.x += x_offset
         self.background_rect.y += y_offset
