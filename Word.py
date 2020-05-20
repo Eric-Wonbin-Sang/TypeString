@@ -1,3 +1,5 @@
+import random
+
 from General import Functions, Constants
 
 
@@ -54,3 +56,19 @@ def order_word_list_by_hand(hand_type, word_list):
     if hand_type == "left":
         return sorted(word_list, key=left_comparison)
     return sorted(word_list, key=right_comparison)
+
+
+def get_left_hand_word_list(word_list, do_shuffle=True):
+    left_hand_word_list = [word for word in order_word_list_by_hand("left", word_list) if
+                           word.left_hand_key_percent == 100]
+    if do_shuffle:
+        random.shuffle(left_hand_word_list)
+    return left_hand_word_list
+
+
+def get_right_hand_word_list(word_list, do_shuffle=True):
+    right_hand_word_list = [word for word in order_word_list_by_hand("left", word_list) if
+                            word.right_hand_key_percent == 100]
+    if do_shuffle:
+        random.shuffle(right_hand_word_list)
+    return right_hand_word_list

@@ -1,34 +1,15 @@
 import pygame
-import random
 
 import Word
 import TypeInput
-from General import EasyMode
 
 
 def do_input_analysis(curr_word, curr_input):
-
     print(" - ", end="")
     if curr_word.text == curr_input:
         print("correct")
     else:
         print("incorrect")
-
-
-def get_left_hand_word_list(word_list, do_shuffle=True):
-    left_hand_word_list = [word for word in Word.order_word_list_by_hand("left", word_list) if
-                           word.left_hand_key_percent == 100]
-    if do_shuffle:
-        random.shuffle(left_hand_word_list)
-    return left_hand_word_list
-
-
-def get_right_hand_word_list(word_list, do_shuffle=True):
-    right_hand_word_list = [word for word in Word.order_word_list_by_hand("left", word_list) if
-                            word.right_hand_key_percent == 100]
-    if do_shuffle:
-        random.shuffle(right_hand_word_list)
-    return right_hand_word_list
 
 
 def gui():
@@ -40,8 +21,8 @@ def gui():
     screen = pygame.display.set_mode([display_height, display_width], pygame.RESIZABLE)
 
     word_list = Word.get_word_list()
-    left_hand_word_list = get_left_hand_word_list(word_list)
-    right_hand_word_list = get_right_hand_word_list(word_list)
+    left_hand_word_list = Word.get_left_hand_word_list(word_list)
+    right_hand_word_list = Word.get_right_hand_word_list(word_list)
 
     curr_word_list = left_hand_word_list
 
@@ -62,18 +43,19 @@ def gui():
         for i, next_word in enumerate(curr_word_list)
     ]
 
-    type_input_y_offset = display_height / 8
-    for i, type_input in enumerate(type_input_list):
-        type_input.move(y_offset=type_input_y_offset * i)
-
+    loop_counter = 0
     while True:
 
         type_input_y_offset = display_height / 8
+        prev_type_input_list = type_input_list[type_input_list_index - 5:type_input_list_index]
+        next_type_input_list = type_input_list[type_input_list_index:type_input_list_index + 5]
+
+        if loop_counter == 0:
+            for i, type_input in enumerate(type_input_list):
+                type_input.move(y_offset=type_input_y_offset * i)
 
         screen.fill((255, 255, 255))
         display_width, display_height = pygame.display.get_surface().get_size()
-
-        print(display_width, display_height, type_input_y_offset)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
