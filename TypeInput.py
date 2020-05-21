@@ -1,14 +1,13 @@
 import pygame
 import datetime
 
-from General import EasyMode
+from General import EasyMode, Functions
 
 
 class TypeInput:
 
     def __init__(self, **kwargs):
 
-        self.input_str = ""
         self.target_word = kwargs.get("target_word")
         self.display_width = kwargs.get("display_width")
         self.display_height = kwargs.get("display_height")
@@ -71,10 +70,21 @@ class TypeInput:
         self.input_text.x += x_offset
         self.input_text.y += y_offset
 
+    def do_input_analysis(self):
+        print(" - ", end="")
+        if self.target_word == self.input_text.text:
+            self.background_rect.color = (0, 255, 0)
+            print("correct")
+        else:
+            self.background_rect.color = (255, 0, 0)
+            print("incorrect")
+
     def update(self, event):
 
         if event.key in [pygame.K_LCTRL, pygame.K_RCTRL]:
             key = "ctrl"
+        elif event.key == pygame.K_CAPSLOCK:
+            return
         elif event.key == pygame.K_BACKSPACE:
             key = "backspace"
         elif event.key == pygame.K_DELETE:
@@ -85,20 +95,25 @@ class TypeInput:
         if event.type == pygame.KEYDOWN:
             self.curr_key_list.append(key)
 
-            if self.curr_key_list == ["ctrl", "backspace"]:
-                self.input_str = ""
-            elif len(key) == 1 and key in "qwertyuiopasdfghjklzxcvbnm":
-                self.input_str += key
-            elif event.key == pygame.K_BACKSPACE:
-                self.input_str = self.input_str[:-1]
+            if self.curr_key_list[-2:] == ['ctrl', 'backspace']:
+                self.input_text.text = ""
 
-            self.input_text.text = self.input_str
+            if self.curr_key_list == ["ctrl", "backspace"]:
+                self.input_text.text = ""
+            elif len(key) == 1 and key in "qwertyuiopasdfghjklzxcvbnm":
+                self.input_text.text += key
+            elif event.key == pygame.K_BACKSPACE:
+                self.input_text.text = self.input_text.text[:-1]
+
             self.time_key_dict[datetime.datetime.now().time()] = key
 
         elif event.type == pygame.KEYUP:
             self.curr_key_list.remove(key)
 
-        print(event.key, chr(event.key), event.type, self.curr_key_list, self.input_str)
+        # print(event.key, chr(event.key), event.type, self.curr_key_list, self.input_text.text)
+
+        print(datetime.datetime.now(), Functions.str_to_length(key, 10), self.input_text.text)
+
         # for time in self.time_key_dict:
         #     print("\t", time, self.time_key_dict[time])
 

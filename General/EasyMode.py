@@ -73,9 +73,6 @@ class EasyText(pygame.freetype.Font):
         x_offset = 0
         y_offset = 0
 
-        # if self.draw_from_bottom:
-        #     y_offset = rect.height
-
         if self.draw_center:
             screen.blit(text_surface, (self.x + x_offset - rect.width / 2, self.y + y_offset - rect.height + self.size/2))
         else:

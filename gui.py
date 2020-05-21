@@ -56,14 +56,7 @@ def gui():
         display_width, display_height = pygame.display.get_surface().get_size()
         type_input_y_offset = display_height / 8
 
-
-        # print([x.target_word for x in prev_type_input_list])
-        # print([x.target_word for x in next_type_input_list])
-        # print("-------------------------")
-
         if loop_counter == 0:
-            # for i, type_input in enumerate(prev_type_input_list):
-            #     type_input.move(x=display_width / 2 + 40, y=display_height / 2 + type_input_y_offset * -(i + 1))
             curr_type_input.move(x=display_width / 2, y=display_height / 2)
             for i, type_input in enumerate(next_type_input_list):
                 type_input.move(x=display_width / 2, y=display_height / 2 + type_input_y_offset * (i + 1))
@@ -81,6 +74,8 @@ def gui():
 
                 if event.key == pygame.K_SPACE:
 
+                    curr_type_input.do_input_analysis()
+
                     type_input_list_index += 1
 
                     prev_type_input_list = type_input_list[(type_input_list_index - prev_and_next_count if type_input_list_index - prev_and_next_count >= 0 else 0):type_input_list_index]
@@ -93,10 +88,8 @@ def gui():
                     for i, type_input in enumerate(next_type_input_list):
                         type_input.move(x=display_width / 2, y=display_height / 2 + type_input_y_offset * (i + 1))
 
-                    print([x.target_word for x in prev_type_input_list])
-                    print(curr_type_input.target_word)
-                    print([x.target_word for x in next_type_input_list])
                     print("-------------------------")
+                    print(curr_type_input.target_word)
 
                 else:
                     curr_type_input.update(event=event)
@@ -106,7 +99,7 @@ def gui():
         for i, type_input in enumerate(prev_type_input_list + [curr_type_input] + next_type_input_list):
             type_input.draw(screen=screen)
 
-        if type_input_list_index >= len(type_input_list):
+        if type_input_list_index >= len(type_input_list) - 1:
             type_input_list_index = 0
 
         pygame.display.flip()
