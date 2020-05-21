@@ -12,6 +12,7 @@ class EasyRect(Rect):
         self.width = kwargs.get("width", 0)
         self.height = kwargs.get("height", 0)
         self.color = kwargs.get("color", (0, 0, 0))
+        self.default_color = self.color
         self.border_thickness = kwargs.get("border_thickness", 0)
         self.draw_center = kwargs.get("draw_center", True)
 

@@ -28,7 +28,7 @@ class TypeInput:
             size=self.display_width / 20,
             font_file="FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
-            opacity=20,
+            opacity=100,
             draw_center=False
         )
 
@@ -39,8 +39,8 @@ class TypeInput:
             y=self.display_width / 2,
             size=self.display_width / 20,
             font_file="FontFolder/Product Sans Regular.ttf",
-            color=(71, 92, 125),
-            opacity=20,
+            color=(9, 44, 99),
+            opacity=100,
             draw_center=False
         )
 
@@ -71,13 +71,13 @@ class TypeInput:
         self.input_text.y += y_offset
 
     def do_input_analysis(self):
-        print(" - ", end="")
         if self.target_word == self.input_text.text:
             self.background_rect.color = (0, 255, 0)
-            print("correct")
+            print("check - {}".format("correct"))
+
         else:
             self.background_rect.color = (255, 0, 0)
-            print("incorrect")
+            print("check - {}".format("incorrect"))
 
     def update(self, event):
 
@@ -105,17 +105,21 @@ class TypeInput:
             elif event.key == pygame.K_BACKSPACE:
                 self.input_text.text = self.input_text.text[:-1]
 
-            self.time_key_dict[datetime.datetime.now().time()] = key
+            self.time_key_dict[datetime.datetime.now()] = key
 
         elif event.type == pygame.KEYUP:
             self.curr_key_list.remove(key)
 
-        # print(event.key, chr(event.key), event.type, self.curr_key_list, self.input_text.text)
+        print(list(self.time_key_dict.keys())[-1], self.time_key_dict[list(self.time_key_dict.keys())[-1]], self.input_text.text)
 
-        print(datetime.datetime.now(), Functions.str_to_length(key, 10), self.input_text.text)
-
-        # for time in self.time_key_dict:
-        #     print("\t", time, self.time_key_dict[time])
+        print(self.input_text.text, self.target_word[:len(self.input_text.text)], self.input_text.text == self.target_word[:len(self.input_text.text)])
+        if self.input_text.text == "":
+            self.background_rect.color = self.background_rect.default_color
+        else:
+            if self.input_text.text == self.target_word[:len(self.input_text.text)]:
+                self.background_rect.color = (0, 255, 0)
+            else:
+                self.background_rect.color = (255, 0, 0)
 
     def draw(self, screen):
         self.background_rect.draw(screen)
