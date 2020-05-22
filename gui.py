@@ -1,4 +1,10 @@
 import pygame
+import matplotlib.pyplot as plt
+import matplotlib.backends.backend_agg as agg
+import datetime
+import numpy
+import pandas
+import scipy
 
 import Word
 import TypeInput
@@ -10,6 +16,20 @@ def do_input_analysis(curr_word, curr_input):
         print("correct")
     else:
         print("incorrect")
+
+
+def plot(fig, canvas, x_list, y_list):
+
+    fig.clf()
+    plt.plot(x_list, y_list, '-')
+
+    canvas.draw()
+    renderer = canvas.get_renderer()
+
+    raw_data = renderer.tostring_rgb()
+    size = canvas.get_width_height()
+
+    return pygame.image.fromstring(raw_data, size, "RGB")
 
 
 def gui():
@@ -49,6 +69,14 @@ def gui():
     curr_type_input = type_input_list[type_input_list_index]
     next_type_input_list = type_input_list[type_input_list_index + 1:type_input_list_index + 1 + prev_and_next_count]
 
+    # ----------------------------------------------------------\
+    fig = plt.figure(figsize=[3, 3])
+    # ax = fig.add_subplot(111)
+    canvas = agg.FigureCanvasAgg(fig)
+    # ----------------------------------------------------------
+
+    time_key_dict = {}
+
     loop_counter = 0
     while True:
 
@@ -72,7 +100,15 @@ def gui():
                 screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
             if event.type == pygame.KEYDOWN:
 
+                if event.key == pygame.K_ESCAPE:
+                    print("-------------------------------------")
+                    for time in time_key_dict:
+                        print(time, time_key_dict[time])
+                    pygame.quit()
+
                 if event.key == pygame.K_SPACE:
+
+                    time_key_dict[datetime.datetime.now()] = "space"
 
                     curr_type_input.do_input_analysis()
 
@@ -93,6 +129,9 @@ def gui():
 
                 else:
                     curr_type_input.update(event=event)
+                    curr_time = list(curr_type_input.time_key_dict.keys())[-1]
+                    time_key_dict[curr_time] = curr_type_input.time_key_dict[curr_time]
+                    print(curr_time, time_key_dict[curr_time])
 
         # ------------------------------------------------------
 
@@ -101,6 +140,15 @@ def gui():
 
         if type_input_list_index >= len(type_input_list) - 1:
             type_input_list_index = 0
+
+        time_delta_x_list = []
+        time_delta_y_list = []
+        key_list = list(time_key_dict.keys())[-30:]
+        for i, time in enumerate(key_list[:-1]):
+            time_delta_x_list.append(key_list[i + 1])
+            time_delta_y_list.append((key_list[i + 1] - time).microseconds)
+        surf = plot(fig, canvas, time_delta_x_list, time_delta_y_list)
+        screen.blit(surf, (100, 100))
 
         pygame.display.flip()
         loop_counter += 1

@@ -16,6 +16,7 @@ class TypeInput:
 
         self.input_text = self.get_input_text()
         self.target_word_text = self.get_target_word_text()
+        self.do_uppercase = False
 
         self.background_rect = self.get_background_rect()
         self.text_line = None
@@ -73,11 +74,11 @@ class TypeInput:
     def do_input_analysis(self):
         if self.target_word == self.input_text.text:
             self.background_rect.color = (0, 255, 0)
-            print("check - {}".format("correct"))
+            print(self.input_text.text, "check - {}".format("correct"))
 
         else:
             self.background_rect.color = (255, 0, 0)
-            print("check - {}".format("incorrect"))
+            print(self.input_text.text, "check - {}".format("incorrect"))
 
     def update(self, event):
 
@@ -100,19 +101,18 @@ class TypeInput:
 
             if self.curr_key_list == ["ctrl", "backspace"]:
                 self.input_text.text = ""
-            elif len(key) == 1 and key in "qwertyuiopasdfghjklzxcvbnm":
-                self.input_text.text += key
             elif event.key == pygame.K_BACKSPACE:
                 self.input_text.text = self.input_text.text[:-1]
+            elif key in [letter for letter in "1234567890qwertyuiopasdfghjklzxcvbnm[]\-=;',./"]:
+                self.input_text.text += key
 
             self.time_key_dict[datetime.datetime.now()] = key
 
         elif event.type == pygame.KEYUP:
             self.curr_key_list.remove(key)
 
-        print(list(self.time_key_dict.keys())[-1], self.time_key_dict[list(self.time_key_dict.keys())[-1]], self.input_text.text)
+        # print(list(self.time_key_dict.keys())[-1], self.time_key_dict[list(self.time_key_dict.keys())[-1]], self.input_text.text)
 
-        print(self.input_text.text, self.target_word[:len(self.input_text.text)], self.input_text.text == self.target_word[:len(self.input_text.text)])
         if self.input_text.text == "":
             self.background_rect.color = self.background_rect.default_color
         else:
