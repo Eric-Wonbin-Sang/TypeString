@@ -72,13 +72,20 @@ class TypeInput:
         self.input_text.y += y_offset
 
     def do_input_analysis(self):
+        ret_str = "check - {}"
         if self.target_word == self.input_text.text:
             self.background_rect.color = (0, 255, 0)
-            print(self.input_text.text, "check - {}".format("correct"))
-
+            print("{} check - {}".format(self.input_text.text, "correct"))
+            return "correct"
         else:
             self.background_rect.color = (255, 0, 0)
-            print(self.input_text.text, "check - {}".format("incorrect"))
+            print("{} check - {}".format(self.input_text.text, "incorrect"))
+            return "incorrect"
+
+    def is_correct_so_far(self):
+        if self.input_text.text == self.target_word[:len(self.input_text.text)]:
+            return True
+        return False
 
     def update(self, event):
 
@@ -86,6 +93,8 @@ class TypeInput:
             key = "ctrl"
         elif event.key == pygame.K_CAPSLOCK:
             return
+        elif event.key == pygame.K_RETURN:
+            key = "enter"
         elif event.key == pygame.K_BACKSPACE:
             key = "backspace"
         elif event.key == pygame.K_DELETE:
@@ -116,7 +125,7 @@ class TypeInput:
         if self.input_text.text == "":
             self.background_rect.color = self.background_rect.default_color
         else:
-            if self.input_text.text == self.target_word[:len(self.input_text.text)]:
+            if self.is_correct_so_far():
                 self.background_rect.color = (0, 255, 0)
             else:
                 self.background_rect.color = (255, 0, 0)

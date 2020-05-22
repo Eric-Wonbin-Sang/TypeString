@@ -2,12 +2,14 @@ import pygame
 import matplotlib.pyplot as plt
 import matplotlib.backends.backend_agg as agg
 import datetime
-import numpy
-import pandas
-import scipy
+import csv
 
 import Word
 import TypeInput
+
+
+def format_datetime(datetime_object):
+    return datetime_object.strftime("%Y.%m.%d %H.%M")
 
 
 def do_input_analysis(curr_word, curr_input):
@@ -30,6 +32,17 @@ def plot(fig, canvas, x_list, y_list):
     size = canvas.get_width_height()
 
     return pygame.image.fromstring(raw_data, size, "RGB")
+
+
+def data_to_csv(input_data_list_list):
+
+    curr_time = format_datetime(datetime.datetime.now())
+
+    with open('TypeHistory/{} - TypingTest.csv'.format(curr_time), 'w', newline='') as csvfile:
+        input_csv = csv.writer(csvfile)
+
+        for input_data_list in input_data_list_list:
+            input_csv.writerow(input_data_list)
 
 
 def gui():
@@ -69,13 +82,16 @@ def gui():
     curr_type_input = type_input_list[type_input_list_index]
     next_type_input_list = type_input_list[type_input_list_index + 1:type_input_list_index + 1 + prev_and_next_count]
 
-    # ----------------------------------------------------------\
+    # ----------------------------------------------------------
     fig = plt.figure(figsize=[3, 3])
     # ax = fig.add_subplot(111)
     canvas = agg.FigureCanvasAgg(fig)
     # ----------------------------------------------------------
 
+    # ----------------------------------------------------------
+
     time_key_dict = {}
+    input_data_list_list = []
 
     loop_counter = 0
     while True:
@@ -102,15 +118,29 @@ def gui():
 
                 if event.key == pygame.K_ESCAPE:
                     print("-------------------------------------")
-                    for time in time_key_dict:
-                        print(time, time_key_dict[time])
+                    for input_data_list in input_data_list_list:
+                        print(input_data_list)
+                    data_to_csv(input_data_list_list)
                     pygame.quit()
 
                 if event.key == pygame.K_SPACE:
 
-                    time_key_dict[datetime.datetime.now()] = "space"
+                    curr_time = datetime.datetime.now()
 
+                    time_key_dict[curr_time] = "space"
                     curr_type_input.do_input_analysis()
+
+                    time_delta = 0
+                    if len(input_data_list_list) > 0:
+                        time_delta = (curr_time - input_data_list_list[-1][0]).microseconds
+
+                    input_data_list_list.append(
+                        [curr_time,
+                         time_delta,
+                         curr_type_input.target_word,
+                         time_key_dict[curr_time],
+                         curr_type_input.do_input_analysis()]
+                    )
 
                     type_input_list_index += 1
 
@@ -127,12 +157,28 @@ def gui():
                     print("-------------------------")
                     print(curr_type_input.target_word)
 
+
+
                 else:
                     curr_type_input.update(event=event)
                     curr_time = list(curr_type_input.time_key_dict.keys())[-1]
                     time_key_dict[curr_time] = curr_type_input.time_key_dict[curr_time]
                     print(curr_time, time_key_dict[curr_time])
 
+                    time_delta = 0
+                    if len(input_data_list_list) > 0:
+                        time_delta = (curr_time - input_data_list_list[-1][0]).microseconds
+
+                    input_data_list_list.append(
+                        [
+                            curr_time,
+                            time_delta,
+                            curr_type_input.target_word,
+                            time_key_dict[curr_time],
+                            curr_type_input.is_correct_so_far(),
+
+                        ]
+                    )
         # ------------------------------------------------------
 
         for i, type_input in enumerate(prev_type_input_list + [curr_type_input] + next_type_input_list):
