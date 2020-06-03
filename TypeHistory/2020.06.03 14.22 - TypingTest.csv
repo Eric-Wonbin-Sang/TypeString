@@ -1,0 +1,50 @@
+time,current_word,key_type,key_str,curr_key_list,curr_input
+2020-06-03 14:22:38.553152,rapidly,down,r,[' '],r
+2020-06-03 14:22:38.621214,rapidly,up,r,[' '],r
+2020-06-03 14:22:38.792386,rapidly,down,a,[' '],ra
+2020-06-03 14:22:38.831422,rapidly,up,a,[' '],ra
+2020-06-03 14:22:39.312859,rapidly,down,d,[' '],rad
+2020-06-03 14:22:39.362905,rapidly,up,d,[' '],rad
+2020-06-03 14:22:39.661683,rapidly,down,backspace,[' '],ra
+2020-06-03 14:22:39.752765,rapidly,up,backspace,[' '],ra
+2020-06-03 14:22:39.912911,rapidly,down,p,[' '],rap
+2020-06-03 14:22:40.002993,rapidly,up,p,[' '],rap
+2020-06-03 14:22:40.933343,rapidly,down,i,[' '],rapi
+2020-06-03 14:22:40.992417,rapidly,up,i,[' '],rapi
+2020-06-03 14:22:40.993418,rapidly,down,d,[' '],rapid
+2020-06-03 14:22:41.051975,rapidly,up,d,[' '],rapid
+2020-06-03 14:22:41.122039,rapidly,down,y,[' '],rapidy
+2020-06-03 14:22:41.183094,rapidly,up,y,[' '],rapidy
+2020-06-03 14:22:41.362763,rapidly,down, ,[' '],rapidy
+2020-06-03 14:22:44.363090,now,down,o,[' '],o
+2020-06-03 14:22:44.363090,now,down,n,[' '],on
+2020-06-03 14:22:44.432153,now,down,w,[' '],onw
+2020-06-03 14:22:44.442162,now,up,o,[' '],onw
+2020-06-03 14:22:44.453172,now,up,n,[' '],onw
+2020-06-03 14:22:44.502216,now,up,w,[' '],onw
+2020-06-03 14:22:44.552262,now,down, ,[' '],onw
+2020-06-03 14:22:45.722854,professional,down,p,[' '],p
+2020-06-03 14:22:45.802928,professional,up,p,[' '],p
+2020-06-03 14:22:45.812936,professional,down,r,[' '],pr
+2020-06-03 14:22:45.872991,professional,up,r,[' '],pr
+2020-06-03 14:22:45.883000,professional,down,o,[' '],pro
+2020-06-03 14:22:45.962072,professional,up,o,[' '],pro
+2020-06-03 14:22:46.183781,professional,down,f,[' '],prof
+2020-06-03 14:22:46.252843,professional,up,f,[' '],prof
+2020-06-03 14:22:48.183117,professional,down,e,[' '],profe
+2020-06-03 14:22:48.242170,professional,up,e,[' '],profe
+2020-06-03 14:22:48.372289,professional,down,s,[' '],profes
+2020-06-03 14:22:48.412325,professional,up,s,[' '],profes
+2020-06-03 14:22:48.483390,professional,down,s,[' '],profess
+2020-06-03 14:22:48.562462,professional,up,s,[' '],profess
+2020-06-03 14:22:48.593490,professional,down,i,[' '],professi
+2020-06-03 14:22:48.622516,professional,down,o,[' '],professio
+2020-06-03 14:22:48.673563,professional,up,i,[' '],professio
+2020-06-03 14:22:48.712598,professional,up,o,[' '],professio
+2020-06-03 14:22:48.791684,professional,down,n,[' '],profession
+2020-06-03 14:22:48.882767,professional,up,n,[' '],profession
+2020-06-03 14:22:48.943823,professional,down,a,[' '],professiona
+2020-06-03 14:22:49.012886,professional,up,a,[' '],professiona
+2020-06-03 14:22:49.314160,professional,down,l,[' '],professional
+2020-06-03 14:22:49.373214,professional,up,l,[' '],professional
+2020-06-03 14:22:49.503357,professional,down, ,[' '],professional

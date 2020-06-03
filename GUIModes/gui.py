@@ -4,8 +4,7 @@ import matplotlib.backends.backend_agg as agg
 import datetime
 import csv
 
-import Word
-import TypeInput
+from General import TypeInput, Word
 
 
 def format_datetime(datetime_object):
@@ -59,7 +58,7 @@ def run_type_history(screen, file_name):
             x=display_height / 2,
             y=display_width / 2,
             size=display_width / 20,
-            font_file="FontFolder/Product Sans Regular.ttf",
+            font_file="../FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
             opacity=20,
             draw_center=False
@@ -145,7 +144,7 @@ def gui():
             x=display_height / 2,
             y=display_width / 2,
             size=display_width / 20,
-            font_file="FontFolder/Product Sans Regular.ttf",
+            font_file="../FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
             opacity=20,
             draw_center=False

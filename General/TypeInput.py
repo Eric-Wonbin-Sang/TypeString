@@ -40,7 +40,7 @@ class TypeInput:
             x=self.display_height / 2 + 100,
             y=self.display_width / 2,
             size=self.display_height / 20,
-            font_file="FontFolder/Product Sans Regular.ttf",
+            font_file="../FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
             opacity=100,
             draw_center=False
@@ -52,7 +52,7 @@ class TypeInput:
             x=self.display_height / 2 - 80,
             y=self.display_width / 2,
             size=self.display_height / 20,
-            font_file="FontFolder/Product Sans Regular.ttf",
+            font_file="../FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
             opacity=100,
             draw_center=False
@@ -119,7 +119,8 @@ class TypeInput:
                     self.input_text.text += key_str
 
         elif event.type == pygame.KEYUP:
-            self.curr_key_list.remove(key_str)
+            if key_str in self.curr_key_list:           # look into this error
+                self.curr_key_list.remove(key_str)
 
         if self.input_text.text == "":
             self.background_rect.color = self.background_rect.default_color

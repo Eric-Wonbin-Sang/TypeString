@@ -3,10 +3,7 @@ import datetime
 import random
 import csv
 
-import Word
-import TypeInput
-
-from General import Functions
+from General import Functions, TypeInput, Word
 
 
 class GUITest:
@@ -14,8 +11,10 @@ class GUITest:
     def __init__(self, **kwargs):
 
         self.screen = kwargs.get("screen")
+
         self.display_width = kwargs.get("display_width")
         self.display_height = kwargs.get("display_height")
+        self.type_input_y_offset = self.display_height / 8
 
         self.word_list = Word.get_word_list()
         self.type_input_list = []
@@ -29,31 +28,32 @@ class GUITest:
                             display_height=self.display_height,
                             x=self.display_width / 2,
                             y=self.display_height / 2,
-                            font_file="FontFolder/Product Sans Regular.ttf",
+                            font_file="../FontFolder/Product Sans Regular.ttf",
                             color=(9, 44, 99),
                             opacity=20,
                             draw_center=True
                         )
 
+    def get_init_type_input_list(self, count):
+        init_type_input_list = []
+        for i in range(count):
+            init_type_input_list.append(self.get_random_type_input())
+        return init_type_input_list
+
+    def update_dimension_parameters(self):
+        self.display_width, self.display_height = pygame.display.get_surface().get_size()
+        self.type_input_y_offset = self.display_height / 8
+
     def run(self):
 
-        next_type_input_list = [
-            self.get_random_type_input(),
-            self.get_random_type_input(),
-            self.get_random_type_input(),
-            self.get_random_type_input(),
-            self.get_random_type_input()
-        ]
-        type_input_y_offset = self.display_height / 8
+        next_type_input_list = self.get_init_type_input_list(count=4)
         for i, type_input in enumerate(next_type_input_list):
             type_input.move(x=self.display_width / 2,
-                            y=self.display_height / 2 + type_input_y_offset * i)
+                            y=self.display_height / 2 + self.type_input_y_offset * i)
 
         while True:
 
-            self.display_width, self.display_height = pygame.display.get_surface().get_size()
-            type_input_y_offset = self.display_height / 8
-
+            self.update_dimension_parameters()
             self.screen.fill((255, 255, 255))
 
             for event in pygame.event.get():
@@ -63,34 +63,30 @@ class GUITest:
                     self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                 if event.type in [pygame.KEYDOWN, pygame.KEYUP]:
                     if event.key == pygame.K_ESCAPE:
-                        self.run_to_csv()
+                        # self.run_to_csv()
                         pygame.quit()
                     if event.key == pygame.K_SPACE and event.type == pygame.KEYUP:
                         self.type_input_list.append(next_type_input_list[0])
-                        next_type_input_list = next_type_input_list[1:]
-                        next_type_input_list.append(self.get_random_type_input())
+                        next_type_input_list = next_type_input_list[1:] + [self.get_random_type_input()]
 
                         for i, type_input in enumerate(reversed(self.type_input_list)):
                             type_input.move(x=self.display_width / 2,
-                                            y=self.display_height / 2 + type_input_y_offset * -(i + 1))
+                                            y=self.display_height / 2 + self.type_input_y_offset * -(i + 1))
                         for i, type_input in enumerate(next_type_input_list):
                             type_input.move(x=self.display_width / 2,
-                                            y=self.display_height / 2 + type_input_y_offset * i)
+                                            y=self.display_height / 2 + self.type_input_y_offset * i)
                     else:
                         next_type_input_list[0].update(event=event)
+                        # if next_type_input_list[0].curr_key_list == ["ctrl", "shift", "z"]:
+                        #     print("ESCAPE SCREEN MODE")
 
-            for i, type_input in enumerate(next_type_input_list):
+            for i, type_input in enumerate(next_type_input_list + self.type_input_list):
                 type_input.draw(screen=self.screen)
-            for i, type_input in enumerate(self.type_input_list):
-                type_input.draw(screen=self.screen)
-
             pygame.display.flip()
 
     def run_to_csv(self):
-
         directory = "TypeHistory"
         filename = "{} - TypingTest.csv".format(Functions.format_datetime(datetime.datetime.now()))
-
         with open('{}/{}'.format(directory, filename), 'w', newline='') as csv_file:
             input_csv = csv.writer(csv_file)
 
@@ -112,8 +108,4 @@ def test():
     screen = pygame.display.set_mode([display_width, display_height], pygame.RESIZABLE)
 
     gui_test = GUITest(screen=screen, display_width=display_width, display_height=display_height)
-
     gui_test.run()
-
-
-test()
