@@ -78,3 +78,12 @@ class EasyText(pygame.freetype.Font):
             screen.blit(text_surface, (self.x + x_offset - rect.width / 2, self.y + y_offset - rect.height + self.size/2))
         else:
             screen.blit(text_surface, (self.x + x_offset, self.y + y_offset))
+
+
+# class EasyButton(EasyRect):
+#
+#     def __init__(self, button_text, **kwargs):
+#
+#         super().__init__(**kwargs)
+#
+#         self.easy_text = EasyText(button_text)
