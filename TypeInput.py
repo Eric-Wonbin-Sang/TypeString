@@ -30,6 +30,8 @@ class TypeInput:
         }
 
         self.background_rect = self.get_background_rect()
+        self.good_color = (0, 255, 0)
+        self.bad_color = (255, 0, 0)
         self.text_line = None
 
     def get_input_text(self):
@@ -37,7 +39,7 @@ class TypeInput:
             text="",
             x=self.display_height / 2 + 100,
             y=self.display_width / 2,
-            size=self.display_width / 20,
+            size=self.display_height / 20,
             font_file="FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
             opacity=100,
@@ -49,7 +51,7 @@ class TypeInput:
             text=self.target_word.text,
             x=self.display_height / 2 - 80,
             y=self.display_width / 2,
-            size=self.display_width / 20,
+            size=self.display_height / 20,
             font_file="FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
             opacity=100,
@@ -60,8 +62,8 @@ class TypeInput:
         return EasyMode.EasyRect(
             x=self.display_height/2,
             y=self.display_width/2,
-            width=self.display_height/3,
-            height=self.display_width/10,
+            width=self.display_width/3,
+            height=self.display_height/10,
             color=(66, 135, 245),
             draw_center=True
         )
@@ -85,11 +87,9 @@ class TypeInput:
     def do_input_analysis(self):
         ret_str = "{} check - {}"
         if self.target_word.text == self.input_text.text:
-            self.background_rect.color = (0, 255, 0)
             print(ret_str.format(self.input_text.text, "correct"))
             return "correct"
         else:
-            self.background_rect.color = (255, 0, 0)
             print(ret_str.format(self.input_text.text, "incorrect"))
             return "incorrect"
 
@@ -97,6 +97,9 @@ class TypeInput:
         if self.input_text.text == self.target_word.text[:len(self.input_text.text)]:
             return True
         return False
+
+    def get_location_data(self):
+        return "x: {} y: {}".format(self.background_rect.x, self.background_rect.y)
 
     def update(self, event):
 
@@ -122,16 +125,18 @@ class TypeInput:
             self.background_rect.color = self.background_rect.default_color
         else:
             if self.is_correct_so_far():
-                self.background_rect.color = (0, 255, 0)
+                self.background_rect.color = self.good_color
             else:
-                self.background_rect.color = (255, 0, 0)
+                self.background_rect.color = self.bad_color
 
         self.time_info_dict_list.append(
             {
                 "time": datetime.datetime.now(),
+                "current_word": self.target_word.text,
                 "key_type": "up" if event.type == pygame.KEYUP else "down",
                 "key_str": key_str,
-                "curr_key_list": self.curr_key_list
+                "curr_key_list": self.curr_key_list,
+                "curr_input": self.input_text.text
             }
         )
 
