@@ -44,17 +44,23 @@ class GUITest:
         self.display_width, self.display_height = pygame.display.get_surface().get_size()
         self.type_input_y_offset = self.display_height / 8
 
-    def run(self):
-
-        next_type_input_list = self.get_init_type_input_list(count=4)
+    def position_type_inputs(self, next_type_input_list):
+        for i, type_input in enumerate(reversed(self.type_input_list[-10:])):
+            type_input.move(x=self.display_width / 2,
+                            y=self.display_height / 2 + self.type_input_y_offset * -(i + 1))
         for i, type_input in enumerate(next_type_input_list):
             type_input.move(x=self.display_width / 2,
                             y=self.display_height / 2 + self.type_input_y_offset * i)
 
+    def run(self):
+
+        next_type_input_list = self.get_init_type_input_list(count=4)
+        self.position_type_inputs(next_type_input_list=next_type_input_list)
+
         while True:
 
             self.update_dimension_parameters()
-            self.screen.fill((255, 255, 255))
+            self.screen.fill((12, 49, 97))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -68,13 +74,7 @@ class GUITest:
                     if event.key == pygame.K_SPACE and event.type == pygame.KEYUP:
                         self.type_input_list.append(next_type_input_list[0])
                         next_type_input_list = next_type_input_list[1:] + [self.get_random_type_input()]
-
-                        for i, type_input in enumerate(reversed(self.type_input_list)):
-                            type_input.move(x=self.display_width / 2,
-                                            y=self.display_height / 2 + self.type_input_y_offset * -(i + 1))
-                        for i, type_input in enumerate(next_type_input_list):
-                            type_input.move(x=self.display_width / 2,
-                                            y=self.display_height / 2 + self.type_input_y_offset * i)
+                        self.position_type_inputs(next_type_input_list=next_type_input_list)
                     else:
                         next_type_input_list[0].update(event=event)
                         # if next_type_input_list[0].curr_key_list == ["ctrl", "shift", "z"]:

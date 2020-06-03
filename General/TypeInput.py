@@ -1,7 +1,7 @@
 import pygame
 import datetime
 
-from General import EasyMode, Functions
+from General import EasyMode
 
 
 class TypeInput:
@@ -40,10 +40,10 @@ class TypeInput:
             x=self.display_height / 2 + 100,
             y=self.display_width / 2,
             size=self.display_height / 20,
-            font_file="../FontFolder/Product Sans Regular.ttf",
+            font_file="FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
             opacity=100,
-            draw_center=False
+            draw_center=True
         )
 
     def get_target_word_text(self):
@@ -52,10 +52,10 @@ class TypeInput:
             x=self.display_height / 2 - 80,
             y=self.display_width / 2,
             size=self.display_height / 20,
-            font_file="../FontFolder/Product Sans Regular.ttf",
+            font_file="FontFolder/Product Sans Regular.ttf",
             color=(9, 44, 99),
             opacity=100,
-            draw_center=False
+            draw_center=True
         )
 
     def get_background_rect(self):
@@ -125,10 +125,7 @@ class TypeInput:
         if self.input_text.text == "":
             self.background_rect.color = self.background_rect.default_color
         else:
-            if self.is_correct_so_far():
-                self.background_rect.color = self.good_color
-            else:
-                self.background_rect.color = self.bad_color
+            self.background_rect.color = self.good_color if self.is_correct_so_far() else self.bad_color
 
         self.time_info_dict_list.append(
             {
@@ -159,6 +156,13 @@ class TypeInput:
     #             self.background_rect.color = (255, 0, 0)
 
     def draw(self, screen):
+
+        self.target_word_text.x = self.background_rect.x - self.background_rect.width/4
+        self.input_text.x = self.background_rect.x + self.background_rect.width/4
+
+        self.target_word_text.y = self.background_rect.y
+        self.input_text.y = self.background_rect.y
+
         self.background_rect.draw(screen)
         self.target_word_text.draw(screen)
         self.input_text.draw(screen)
