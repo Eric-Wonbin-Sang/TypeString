@@ -37,8 +37,17 @@ class GUITest:
 
     def run(self):
 
-        curr_type_input = self.get_random_type_input()
-        curr_type_input.move(x=self.display_width / 2, y=self.display_height / 2)
+        next_type_input_list = [
+            self.get_random_type_input(),
+            self.get_random_type_input(),
+            self.get_random_type_input(),
+            self.get_random_type_input(),
+            self.get_random_type_input()
+        ]
+        type_input_y_offset = self.display_height / 8
+        for i, type_input in enumerate(next_type_input_list):
+            type_input.move(x=self.display_width / 2,
+                            y=self.display_height / 2 + type_input_y_offset * i)
 
         while True:
 
@@ -57,21 +66,23 @@ class GUITest:
                         self.run_to_csv()
                         pygame.quit()
                     if event.key == pygame.K_SPACE and event.type == pygame.KEYUP:
-                        self.type_input_list.append(curr_type_input)
+                        self.type_input_list.append(next_type_input_list[0])
+                        next_type_input_list = next_type_input_list[1:]
+                        next_type_input_list.append(self.get_random_type_input())
 
                         for i, type_input in enumerate(reversed(self.type_input_list)):
                             type_input.move(x=self.display_width / 2,
                                             y=self.display_height / 2 + type_input_y_offset * -(i + 1))
-
-                        curr_type_input = self.get_random_type_input()
-                        curr_type_input.move(x=self.display_width / 2, y=self.display_height / 2)
+                        for i, type_input in enumerate(next_type_input_list):
+                            type_input.move(x=self.display_width / 2,
+                                            y=self.display_height / 2 + type_input_y_offset * i)
                     else:
-                        curr_type_input.update(event=event)
-            # ------------------------------------------------------
+                        next_type_input_list[0].update(event=event)
 
+            for i, type_input in enumerate(next_type_input_list):
+                type_input.draw(screen=self.screen)
             for i, type_input in enumerate(self.type_input_list):
                 type_input.draw(screen=self.screen)
-            curr_type_input.draw(screen=self.screen)
 
             pygame.display.flip()
 

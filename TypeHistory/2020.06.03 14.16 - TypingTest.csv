@@ -1,0 +1,8 @@
+time,current_word,key_type,key_str,curr_key_list,curr_input
+2020-06-03 14:16:24.500375,reduction,down,a,[' '],a
+2020-06-03 14:16:24.519393,reduction,down,s,[' '],as
+2020-06-03 14:16:24.571440,reduction,down,d,[' '],asd
+2020-06-03 14:16:24.619989,reduction,up,a,[' '],asd
+2020-06-03 14:16:24.619989,reduction,up,s,[' '],asd
+2020-06-03 14:16:24.700061,reduction,up,d,[' '],asd
+2020-06-03 14:16:24.850703,reduction,down, ,[' '],asd
