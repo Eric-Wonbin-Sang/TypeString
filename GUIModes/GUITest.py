@@ -3,6 +3,8 @@ import datetime
 import random
 import csv
 
+from GUIModes import GUIAnalyse
+
 from General import Functions, TypeInput, Word
 
 
@@ -56,6 +58,8 @@ class GUITest:
 
         next_type_input_list = self.get_init_type_input_list(count=4)
         self.position_type_inputs(next_type_input_list=next_type_input_list)
+        curr_run_analysis = False
+        prev_run_analysis = False
 
         while True:
 
@@ -77,12 +81,25 @@ class GUITest:
                         self.position_type_inputs(next_type_input_list=next_type_input_list)
                     else:
                         next_type_input_list[0].update(event=event)
-                        # if next_type_input_list[0].curr_key_list == ["ctrl", "shift", "z"]:
-                        #     print("ESCAPE SCREEN MODE")
+                        print(next_type_input_list[0].curr_key_list)
+                        if next_type_input_list[0].curr_key_list == ["ctrl", "shift", "a"]:
+                            curr_run_analysis = True
 
             for i, type_input in enumerate(next_type_input_list + self.type_input_list):
                 type_input.draw(screen=self.screen)
             pygame.display.flip()
+
+            if curr_run_analysis != prev_run_analysis:
+                csv_file_path = "TypeHistory/2020.06.03 15.21 - TypingTest.csv"
+                GUIAnalyse.GUIAnalyse(
+                    screen=self.screen,
+                    display_width=self.display_width,
+                    display_height=self.display_height,
+                    csv_file_path=csv_file_path
+                )
+
+            prev_run_analysis = curr_run_analysis
+            curr_run_analysis = False
 
     def run_to_csv(self):
         directory = "TypeHistory"
