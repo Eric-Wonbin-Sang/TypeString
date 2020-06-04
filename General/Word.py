@@ -41,7 +41,7 @@ def right_comparison(word):
 
 
 def get_word_list():
-    string_list = Functions.get_strings_from_txt_to_list("Source Files/3000 most common words.txt")
+    string_list = Functions.get_strings_from_txt_to_list("Source Files/10fastfingers top 200 words.txt")
     return [Word(string) for string in string_list]
 
 

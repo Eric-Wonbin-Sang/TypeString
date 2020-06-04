@@ -83,34 +83,12 @@ class GUIAnalyse:
         self.display_width, self.display_height = pygame.display.get_surface().get_size()
 
     def analyse(self):
-
         for word_attempt in self.word_attempt_list:
             print(word_attempt)
 
-        correct_time_info_dict_list_list = []
-        incorrect_time_info_dict_list_list = []
-
-        # for time_info_dict_list in self.time_info_dict_list_list:
-        #     if time_info_dict_list[-1]["current_word"] == time_info_dict_list[-1]["curr_input"]:
-        #         correct_time_info_dict_list_list.append(time_info_dict_list)
-        #     else:
-        #         incorrect_time_info_dict_list_list.append(time_info_dict_list)
-        #
-        # for time_info_dict_list in correct_time_info_dict_list_list:
-        #     for i, time_info_dict in enumerate(time_info_dict_list):
-        #         print(time_info_dict)
-        #     print("--------------------")
-        #
-        # print("\n\n\n")
-
-        # for time_info_dict_list in incorrect_time_info_dict_list_list:
-        #     for i, time_info_dict in enumerate(time_info_dict_list):
-        #         print(time_info_dict)
-        #     print("--------------------")
-
     def run(self):
 
-        self.analyse()
+        # self.analyse()
 
         run_cond = True
         while run_cond:
@@ -150,4 +128,4 @@ def test():
     )
 
 
-test()
+# test()

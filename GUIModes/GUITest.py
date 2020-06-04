@@ -81,9 +81,10 @@ class GUITest:
                         self.position_type_inputs(next_type_input_list=next_type_input_list)
                     else:
                         next_type_input_list[0].update(event=event)
-                        print(next_type_input_list[0].curr_key_list)
+
                         if next_type_input_list[0].curr_key_list == ["ctrl", "shift", "a"]:
                             curr_run_analysis = True
+                            next_type_input_list[0].curr_key_list = []
 
             for i, type_input in enumerate(next_type_input_list + self.type_input_list):
                 type_input.draw(screen=self.screen)

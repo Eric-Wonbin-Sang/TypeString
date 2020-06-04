@@ -1,4 +1,4 @@
-from General import Word
+from General import Word, Functions
 
 
 class WordAttempt:
@@ -20,8 +20,12 @@ class WordAttempt:
 
     def __str__(self):
         ret_str = "target_word: {}\tlast_input: {}\tcorrect_cond: {}".format(
-            self.target_word.text,
-            self.last_input,
-            self.correct_cond
+            *[
+                Functions.str_to_length(str(thing), 14) for thing in [
+                    self.target_word.text,
+                    self.last_input,
+                    self.correct_cond
+                ]
+            ]
         )
         return ret_str
