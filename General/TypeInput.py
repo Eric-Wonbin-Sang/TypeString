@@ -29,7 +29,6 @@ class TypeInput:
             pygame.K_ESCAPE: "escape"
         }
 
-        self.background_rect = self.get_background_rect()
         self.good_color = (0, 255, 0)
         self.bad_color = (255, 0, 0)
         self.text_line = None
@@ -143,17 +142,11 @@ class TypeInput:
             str_ret += "{}\t: {}\t".format(key, self.time_info_dict_list[-1][key])
         print(str_ret)
 
-    # def update_by_curr_input(self, curr_input):
-    #
-    #     self.input_text.text = curr_input
-    #
-    #     if self.input_text.text == "":
-    #         self.background_rect.color = self.background_rect.default_color
-    #     else:
-    #         if self.is_correct_so_far():
-    #             self.background_rect.color = (0, 255, 0)
-    #         else:
-    #             self.background_rect.color = (255, 0, 0)
+    def end_check(self):
+        self.background_rect.color = self.good_color if self.input_text.text == self.target_word.text else self.bad_color
+
+    def is_mouse_clicked(self, mouse):
+        return self.background_rect.is_mouse_clicked(mouse)
 
     def draw(self, screen):
 

@@ -27,6 +27,9 @@ class EasyRect(Rect):
         self.x = x
         self.y = y
 
+    def is_mouse_clicked(self, mouse):
+        return self.x < mouse.x < self.x + self.width and self.y < mouse.y < self.y + self.height and mouse.left_click
+
     def draw(self, screen):
         if self.draw_center:
             pygame.draw.rect(

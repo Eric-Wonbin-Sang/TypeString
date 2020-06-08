@@ -1,5 +1,4 @@
-import enchant
-from nltk.corpus import wordnet
+import os
 
 
 def get_word_list(html_path):
@@ -15,6 +14,10 @@ def get_word_list(html_path):
 
 def main():
 
+    txt_file_path = "10fastfingers top 200 words.txt"
+
+    os.remove(txt_file_path)
+
     html_path_0 = "Typing Test English - 10FastFingers.com.html"
     html_path_1 = "Typing Test English - 10FastFingers.com 1.html"
 
@@ -22,19 +25,16 @@ def main():
     word_list = list(dict.fromkeys(word_list))
 
     temp_word_list = []
-    d = enchant.Dict("en_US")
     for word in word_list:
         if len(word) >= 2 and word not in ["som"]:
             temp_word_list.append(word)
-        # elif d.check(word) and wordnet.synsets(word):
-        #     temp_word_list.append(word)
     word_list = temp_word_list
 
-    print(len(word_list))
+    print("Numbers of words found: {}".format(len(word_list)))
     for word in word_list:
-        print(word)
+        print("\t{}".format(word))
 
-    with open("10fastfingers top 200 words.txt", "a") as txt_file:
+    with open(txt_file_path, "a") as txt_file:
         for i, word in enumerate(word_list):
             if i != 0:
                 txt_file.write("\n")

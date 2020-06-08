@@ -5,7 +5,7 @@ import csv
 
 from GUIModes import GUIAnalyse
 
-from General import Functions, TypeInput, Word
+from General import Functions, TypeInput, Word, Mouse
 
 
 class GUITest:
@@ -13,6 +13,7 @@ class GUITest:
     def __init__(self, **kwargs):
 
         self.screen = kwargs.get("screen")
+        self.mouse = kwargs.get("mouse")
 
         self.display_width = kwargs.get("display_width")
         self.display_height = kwargs.get("display_height")
@@ -42,9 +43,10 @@ class GUITest:
             init_type_input_list.append(self.get_random_type_input())
         return init_type_input_list
 
-    def update_dimension_parameters(self):
+    def update_parameters(self):
         self.display_width, self.display_height = pygame.display.get_surface().get_size()
         self.type_input_y_offset = self.display_height / 8
+        self.mouse.update()
 
     def position_type_inputs(self, next_type_input_list):
         for i, type_input in enumerate(reversed(self.type_input_list[-10:])):
@@ -63,7 +65,7 @@ class GUITest:
 
         while True:
 
-            self.update_dimension_parameters()
+            self.update_parameters()
             self.screen.fill((12, 49, 97))
 
             for event in pygame.event.get():
@@ -76,6 +78,7 @@ class GUITest:
                         # self.run_to_csv()
                         pygame.quit()
                     if event.key == pygame.K_SPACE and event.type == pygame.KEYUP:
+                        next_type_input_list[0].end_check()
                         self.type_input_list.append(next_type_input_list[0])
                         next_type_input_list = next_type_input_list[1:] + [self.get_random_type_input()]
                         self.position_type_inputs(next_type_input_list=next_type_input_list)
@@ -86,12 +89,14 @@ class GUITest:
                             curr_run_analysis = True
                             next_type_input_list[0].curr_key_list = []
 
+            print(next_type_input_list[0].is_mouse_clicked(self.mouse))
+
             for i, type_input in enumerate(next_type_input_list + self.type_input_list):
                 type_input.draw(screen=self.screen)
             pygame.display.flip()
 
             if curr_run_analysis != prev_run_analysis:
-                csv_file_path = "TypeHistory/2020.06.03 15.21 - TypingTest.csv"
+                csv_file_path = "TypeHistory/2020.06.04 20.04 - TypingTest.csv"
                 GUIAnalyse.GUIAnalyse(
                     screen=self.screen,
                     display_width=self.display_width,
@@ -124,6 +129,12 @@ def test():
     display_height = 700
     display_width = 1200
     screen = pygame.display.set_mode([display_width, display_height], pygame.RESIZABLE)
+    mouse = Mouse.Mouse()
 
-    gui_test = GUITest(screen=screen, display_width=display_width, display_height=display_height)
+    gui_test = GUITest(
+        screen=screen,
+        display_width=display_width,
+        display_height=display_height,
+        mouse=mouse
+    )
     gui_test.run()
