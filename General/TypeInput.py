@@ -16,6 +16,7 @@ class TypeInput:
 
         self.input_text = self.get_input_text()
         self.target_word_text = self.get_target_word_text()
+        self.background_rect = self.get_background_rect()
 
         self.key_dict = {
             pygame.K_LCTRL: "ctrl",

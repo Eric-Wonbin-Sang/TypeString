@@ -11,7 +11,7 @@ class Mouse:
         self.left_click, self.middle_click, self.right_click = self.get_click_info()
 
     def get_click_info(self):
-        return (bool(x) for x in pygame.mouse.get_presed())
+        return (bool(x) for x in pygame.mouse.get_pressed())
 
     def update(self):
         self.x, self.y = pygame.mouse.get_pos()

@@ -15,11 +15,14 @@ class GUITest:
         self.screen = kwargs.get("screen")
         self.mouse = kwargs.get("mouse")
 
+        print(self.mouse)
+
         self.display_width = kwargs.get("display_width")
         self.display_height = kwargs.get("display_height")
         self.type_input_y_offset = self.display_height / 8
 
-        self.word_list = Word.get_word_list()
+        # self.word_list = Word.get_word_list()
+        self.word_list = Word.get_left_hand_word_list(Word.get_word_list(), do_shuffle=True)
         self.type_input_list = []
 
         self.run()
@@ -75,7 +78,7 @@ class GUITest:
                     self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                 if event.type in [pygame.KEYDOWN, pygame.KEYUP]:
                     if event.key == pygame.K_ESCAPE:
-                        # self.run_to_csv()
+                        self.run_to_csv()
                         pygame.quit()
                     if event.key == pygame.K_SPACE and event.type == pygame.KEYUP:
                         next_type_input_list[0].end_check()
@@ -138,3 +141,6 @@ def test():
         mouse=mouse
     )
     gui_test.run()
+
+
+test()
